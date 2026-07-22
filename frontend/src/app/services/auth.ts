@@ -1,9 +1,21 @@
-import { Service } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
-@Service()
-export class Auth {
+@Injectable({
+  providedIn: 'root'
+})
+export class AuthService {
 
-    
+  private http = inject(HttpClient);
+
+  private api = 'http://localhost:8080';
+
+  register(user:any){
+    return this.http.post(`${this.api}/register`, user);
+  }
+
+  login(user:any){
+    return this.http.post(`${this.api}/login`, user);
+  }
+
 }
-
-
