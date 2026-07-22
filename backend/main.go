@@ -1,6 +1,7 @@
 package main
 
 import (
+	"golang.org/x/crypto/bcrypt"
 	_ "github.com/lib/pq"
 	"database/sql"
 	"time"
@@ -9,9 +10,9 @@ import (
 	"net/http"
 )
 
-type healthResponse struct {
+/*type healthResponse struct {
 	Status string `json:"status"`
-}
+}*/
 
 type Task struct {
 	ID        int       `json:"id"`
@@ -19,6 +20,17 @@ type Task struct {
 	Title     string    `json:"title"`
 	Date      time.Time `json:"date"`
 	Completed bool      `json:"completed"`
+}
+
+type RegisterRequest struct {
+	Username string `json:"username"`
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
+
+type LoginRequest struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
 }
 
 type CreateTaskRequest struct {
@@ -49,12 +61,13 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintln(w, "Hello from Go!")
 }
 
-func healthHandler(w http.ResponseWriter, r *http.Request) {
+/*func healthHandler(w http.ResponseWriter, r *http.Request) {
 	response := healthResponse {
 		Status: "OK",
 	}
 	json.NewEncoder(w).Encode(response)
 }
+*/
 
 func getTasksHandler(w http.ResponseWriter, r *http.Request) {
 
@@ -176,9 +189,84 @@ func deleteTaskHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func registerHandler(w http.ResponseWriter, r *http.Request) {
+
+	var request RegisterRequest
+
+	err := json.NewDecoder(r.Body).Decode(&request)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	hash, err := bcrypt.GenerateFromPassword(
+		[]byte(request.Password),
+		bcrypt.DefaultCost,
+	)
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	_, err = db.Exec(`
+		INSERT INTO users
+		(username, email, password_hash)
+		VALUES ($1,$2,$3)
+	`,
+		request.Username,
+		request.Email,
+		string(hash),
+	)
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(http.StatusCreated)
+
+}
+
+func loginHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("LOGIN HANDLER")
+	var request LoginRequest
+
+	err := json.NewDecoder(r.Body).Decode(&request)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	var storedHash string
+
+	err = db.QueryRow(`
+		SELECT password_hash
+		FROM users
+		WHERE username = $1
+	`, request.Username).Scan(&storedHash)
+
+	if err != nil {
+		http.Error(w, "Invalid username or password", http.StatusUnauthorized)
+		return
+	}
+
+	err = bcrypt.CompareHashAndPassword(
+		[]byte(storedHash),
+		[]byte(request.Password),
+	)
+
+	if err != nil {
+		http.Error(w, "Invalid username or password", http.StatusUnauthorized)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	fmt.Fprintln(w, "Login successful")
+}
+
 func main() {
 
-// Connect to PostgreSQL
 connStr := "host=localhost port=5432 user=postgres password=tadashi dbname=todo_app sslmode=disable"
 
 var err error
@@ -195,8 +283,10 @@ if err != nil {
 
 fmt.Println("Connected to PostgreSQL!")
 
+	/*http.HandleFunc("/health", healthHandler)*/
 	http.HandleFunc("/", homeHandler)
-	http.HandleFunc("/health", healthHandler)
+	http.HandleFunc("/register", registerHandler)
+	http.HandleFunc("/login", loginHandler)
 	http.HandleFunc("/tasks", func(w http.ResponseWriter, r *http.Request) {
 
 		switch r.Method {
