@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/rs/cors"
 	"golang.org/x/crypto/bcrypt"
 	_ "github.com/lib/pq"
 	"database/sql"
@@ -312,7 +313,15 @@ fmt.Println("Connected to PostgreSQL!")
 
 	fmt.Println("Server running on http://localhost:8080")
 
-	err = http.ListenAndServe(":8080", nil)
+	handler := cors.New(cors.Options{
+		AllowedOrigins: []string{"http://localhost:4200"},
+		AllowedMethods: []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowedHeaders: []string{"*"},
+	})
+	
+	fmt.Println("Server running on http://localhost:8080")
+	
+	err = http.ListenAndServe(":8080", handler.Handler(http.DefaultServeMux))
 	if err != nil {
 		fmt.Println("Server failed to start:", err)
 	}
