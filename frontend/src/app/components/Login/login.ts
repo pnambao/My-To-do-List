@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import {Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth'; // adjust path/name to match your actual service
 
 @Component({
@@ -14,7 +14,10 @@ export class Login {
 
   loginForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private authService: AuthService) {
+  constructor(
+    private fb: FormBuilder, 
+    private authService: AuthService,
+    private router: Router) {
     this.loginForm = this.fb.group({
       username: ['', Validators.required],
       password: ['', Validators.required]
@@ -26,8 +29,13 @@ export class Login {
 
     this.authService.login(this.loginForm.value).subscribe({
       next: () => {
+        alert("Login successful!");
+        this.router.navigate(['/tasks']);
       },
-      error: (err) => console.error('Login failed:', err)
+      error: (err) => {
+        console.error(err);
+        alert("Invalid username or password");
+      }
     });
   }
 

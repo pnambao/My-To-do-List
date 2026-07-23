@@ -200,6 +200,7 @@ func registerHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+
 	hash, err := bcrypt.GenerateFromPassword(
 		[]byte(request.Password),
 		bcrypt.DefaultCost,
@@ -230,7 +231,6 @@ func registerHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func loginHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("LOGIN HANDLER")
 	var request LoginRequest
 
 	err := json.NewDecoder(r.Body).Decode(&request)
@@ -262,8 +262,9 @@ func loginHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	fmt.Fprintln(w, "Login successful")
+	json.NewEncoder(w).Encode(map[string]string{"message": "Login successful"})
 }
 
 func main() {
