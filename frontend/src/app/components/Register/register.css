@@ -19,7 +19,7 @@
   .login-page {
     display: grid;
     place-items: center;
-    padding-top: 80px;
+    padding: 80px 80px;
     min-height: 100vh;
     box-sizing: border-box;
   }
@@ -30,9 +30,9 @@
   }
   
   .login-card {
-    border: 1px solid rgb(234, 231, 231);
-    border-radius: 12px;
-    padding: 28px 32px;
+    border: 1px solid lightgray;
+    border-radius: 9px;
+    padding: 25px 32px;
     width: 320px;
     box-sizing: border-box;
   }
@@ -48,28 +48,23 @@
   .login-card input[type="password"] {
     width: 100%;
     padding: 10px 12px;
-    border: 1px solid rgb(220, 220, 220);
-    border-radius: 6px;
+    border: 1px solid lightgray;
+    border-radius: 4px;
     font-size: 14px;
     box-sizing: border-box;
     font-family: "Instrument Sans", sans-serif;
   }
   
-  .btn-primary,
-  .btn-secondary {
+  .btn-primary{
     margin-top: 12px;
-    padding: 12px;
+    padding: 9px;
     border: none;
-    border-radius: 6px;
+    border-radius: 4px;
     background: #2a2620;
     color: #fff;
-    font-size: 15px;
-    font-weight: 500;
+    font-size: 12px;
+    font-weight: 400;
     width: 100%;
     cursor: pointer;
   }
   
-  .btn-primary:hover,
-  .btn-secondary:hover {
-    background: #1a1712;
-  }

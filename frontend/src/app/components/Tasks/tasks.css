@@ -9,3 +9,25 @@
     font-family: "Instrument Sans", sans-serif;
   }
 
+  .btn-primary {
+    margin: 12px;
+    padding: 9px;
+    border: none;
+    border-radius: 4px;
+    background: #2a2620;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 400;
+    width: 10%;
+    cursor: pointer;
+  }
+
+  .login-card label {
+    font-size: 13px;
+    color: #a68a5b;
+    display: inline-block;
+    margin-bottom: 4px;
+  }
+
+
+.task-actions { display: inline-flex; gap: 14px; }

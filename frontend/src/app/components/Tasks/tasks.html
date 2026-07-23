@@ -2,12 +2,13 @@
 
     <main class="task-list">
         <aside class="sidebar">
-            <h2 class="sidebar-username">{{ username }}</h2>
-            <button class="btn-logout" (click)="logout()">Logout</button>
+           <h2 class="display">Welcome back,</h2> 
+            <h2 class="sidebar-username display">{{ username }}</h2>
+            <button class="btn-primary" (click)="logout()">Logout</button>
           </aside>
-      <h1 class="display">My Tasks</h1>
+      <h2 class="display">My Tasks</h2>
   
-      <div class="task-item body" *ngFor="let task of tasks()">
+      <div class=" body" *ngFor="let task of tasks()">
         <input
           type="checkbox"
           [checked]="task.completed"
@@ -23,21 +24,21 @@
       </div>
     </main>
   
-    <aside class="create-panel body">
-      <h3 class="create-heading">{{ editingTaskId ? 'Edit Task' : 'Create New Task' }}</h3>
+    <aside>
+      <h2 class="display">{{ editingTaskId ? 'Edit Task' : 'Create New Task' }}</h2>
   
       <form [formGroup]="createForm" (ngSubmit)="createTask()">
-        <label class="field-label" for="date">Date</label>
-        <input id="date" type="date" formControlName="date" class="field-input" />
+        <label class=" body" for="date">Date</label>
+        <input id="date" type="date" formControlName="date"  />
   
-        <label class="field-label" for="title">Task</label>
-        <input id="title" type="text" formControlName="title" class="field-input" placeholder="Enter the task to be completed" />
+        <label class=" body" for="title">Task</label>
+        <input id="title" type="text" formControlName="title"  placeholder="Enter a task" />
   
-        <button type="submit" class="btn-primary">
+        <button type="submit" class="btn-primary body">
           {{ editingTaskId ? 'Save Task' : 'Create Task' }}
         </button>
   
-        <button *ngIf="editingTaskId" type="button" class="btn-secondary" (click)="cancelEdit()">
+        <button *ngIf="editingTaskId" type="button" class="btn-primary body" (click)="cancelEdit()">
           Cancel
         </button>
       </form>
