@@ -26,10 +26,11 @@ export class Login {
 
   onSubmit() {
     if (this.loginForm.invalid) return;
-
+  
     this.authService.login(this.loginForm.value).subscribe({
-      next: () => {
-        alert("Login successful!");
+      next: (res: any) => {
+        localStorage.setItem('userId', res.id);
+        localStorage.setItem('username', res.username);
         this.router.navigate(['/tasks']);
       },
       error: (err) => {

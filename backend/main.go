@@ -72,11 +72,18 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 
 func getTasksHandler(w http.ResponseWriter, r *http.Request) {
 
+	userID := r.URL.Query().Get("user_id")
+	if userID == "" {
+		http.Error(w, "user_id is required", http.StatusBadRequest)
+		return
+	}
+
 	rows, err := db.Query(`
 		SELECT id, user_id, title, date, completed
 		FROM tasks
+		WHERE user_id = $1
 		ORDER BY date;
-	`)
+	`, userID)
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -88,28 +95,17 @@ func getTasksHandler(w http.ResponseWriter, r *http.Request) {
 	var tasks []Task
 
 	for rows.Next() {
-
 		var task Task
-
-		err := rows.Scan(
-			&task.ID,
-			&task.UserID,
-			&task.Title,
-			&task.Date,
-			&task.Completed,
-		)
-
+		err := rows.Scan(&task.ID, &task.UserID, &task.Title, &task.Date, &task.Completed)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-
 		tasks = append(tasks, task)
-
 	}
 
+	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(tasks)
-
 }
 
 func createTaskHandler(w http.ResponseWriter, r *http.Request) {
@@ -240,12 +236,13 @@ func loginHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var storedHash string
+	var userID int
 
 	err = db.QueryRow(`
-		SELECT password_hash
+		SELECT id, password_hash
 		FROM users
 		WHERE username = $1
-	`, request.Username).Scan(&storedHash)
+	`, request.Username).Scan(&userID, &storedHash)
 
 	if err != nil {
 		http.Error(w, "Invalid username or password", http.StatusUnauthorized)
@@ -264,7 +261,10 @@ func loginHandler(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(map[string]string{"message": "Login successful"})
+	json.NewEncoder(w).Encode(map[string]interface{}{
+		"id":       userID,
+		"username": request.Username,
+	})
 }
 
 func main() {

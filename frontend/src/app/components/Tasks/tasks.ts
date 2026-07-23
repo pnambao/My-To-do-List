@@ -30,49 +30,53 @@ export class Tasks {
 
   logout() {
     localStorage.removeItem('username');
+    localStorage.removeItem('userId');
     this.router.navigate(['/login']);
   }
-  loadTasks() {
-    this.taskService.getTasks().subscribe({
-      next: (tasks: any) => this.tasks.set(tasks),
-      error: (err) => console.error('Failed to load tasks:', err)
+  userId: string = localStorage.getItem('userId') ?? '';
+
+loadTasks() {
+  this.taskService.getTasks(this.userId).subscribe({
+    next: (tasks: any) => this.tasks.set(tasks),
+    error: (err) => console.error('Failed to load tasks:', err)
+  });
+}
+
+createTask() {
+  if (this.createForm.invalid) return;
+
+  const formValue = this.createForm.value;
+  const isoDate = `${formValue.date}T00:00:00Z`;
+
+  if (this.editingTaskId) {
+    const existing = this.tasks().find(t => t.id === this.editingTaskId);
+    this.taskService.updateTask({
+      id: this.editingTaskId,
+      title: formValue.title,
+      date: isoDate,
+      completed: existing?.completed ?? false
+    }).subscribe({
+      next: () => {
+        this.editingTaskId = null;
+        this.createForm.reset();
+        this.loadTasks();
+      },
+      error: (err) => console.error('Failed to update task:', err)
+    });
+  } else {
+    this.taskService.createTask({
+      user_id: Number(this.userId),
+      title: formValue.title,
+      date: isoDate
+    }).subscribe({
+      next: () => {
+        this.createForm.reset();
+        this.loadTasks();
+      },
+      error: (err) => console.error('Failed to create task:', err)
     });
   }
-
-  createTask() {
-    if (this.createForm.invalid) return;
-
-    const formValue = this.createForm.value;
-
-    if (this.editingTaskId) {
-      const existing = this.tasks().find(t => t.id === this.editingTaskId);
-      this.taskService.updateTask({
-        id: this.editingTaskId,
-        title: formValue.title,
-        date: formValue.date,
-        completed: existing?.completed ?? false
-      }).subscribe({
-        next: () => {
-          this.editingTaskId = null;
-          this.createForm.reset();
-          this.loadTasks();
-        },
-        error: (err) => console.error('Failed to update task:', err)
-      });
-    } else {
-      this.taskService.createTask({
-        user_id: 1,
-        title: formValue.title,
-        date: formValue.date
-      }).subscribe({
-        next: () => {
-          this.createForm.reset();
-          this.loadTasks();
-        },
-        error: (err) => console.error('Failed to create task:', err)
-      });
-    }
-  }
+}
 
   startEdit(task: any) {
     this.editingTaskId = task.id;

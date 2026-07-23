@@ -10,8 +10,8 @@ import { Injectable } from "@angular/core";
   
     constructor(private http: HttpClient) {}
   
-    getTasks() {
-      return this.http.get(`${this.api}/tasks`);
+    getTasks(userId: string) {
+      return this.http.get(`${this.api}/tasks?user_id=${userId}`);
     }
   
     createTask(task: any) {
