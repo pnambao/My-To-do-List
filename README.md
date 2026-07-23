@@ -21,7 +21,42 @@ I went in with the following assumptions:
 - On the dashboard, I expect the user's tasks to be listed when they login.
 - I expect each task to be linked to one user ID so that each task can only be owned by one user. 
 - On the backend, I expect the system to check the user before allowing them to delete, create or edit.
-  
+
+## How To Run
+
+#### Prerequisites
+If you don't already have these, download them:
+- Go
+- Node.js
+- Angular CLI
+- PostgreSQL
+
+#### Running the project
+1. Clone the repository: git clone [repo url]
+2. Set up PostgreSQL: Create a PostgreSQL database named `todo_app` and run the SQL script to create the required tables. You might need to update the database connection string in `backend/main.go` with your PostgreSQL credentials for it to connect.
+3. Start the Go backend
+```bash
+cd backend
+go mod tidy
+go run .
+```
+The backend API will run at:
+```
+http://localhost:8080
+```
+4. Start the Angular frontend
+```bash
+cd frontend
+npm install
+ng serve
+```
+The application will be available at:
+
+```
+http://localhost:4200
+``` 
+5. Test Registering a user and creating, editing, or deleting tasks.
+
 ## Reflection
 
 I originally aimed to match the dashboard to the Figma wireframe I ideated, but time constraints meant I couldn't fully finish its styling. However, I was able to get the login and register pages very close to my original visual vision, and this is because both pages shared a similar structure. So when I completed the login component, I was able to reuse and adapt that structure for the register component.
