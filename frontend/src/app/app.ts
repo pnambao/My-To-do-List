@@ -11,17 +11,21 @@ import { TaskService } from './services/task';
 export class App {
   protected readonly title = signal('frontend');
 
-  constructor(private taskService: TaskService) {
-    this.taskService.getTasks().subscribe({
+ tasks: any[] = [];
 
-      next: (tasks:any) => {
-        console.log(tasks);
-      },
+constructor(private taskService: TaskService) {
+
+  this.taskService.getTasks().subscribe({  
+    next: (tasks: any) => {
+      console.log("Tasks received:", tasks);
+      this.tasks = tasks;
+    },
+
+    error: (err: any) => {
+      console.error("HTTP Error:", err);
+    }
+  });
+
+}
   
-      error: (err:any) => {
-        console.error(err);
-      }
-  
-    });  
-  }
 }
