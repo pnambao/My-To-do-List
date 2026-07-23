@@ -70,7 +70,9 @@ go test
 
 I originally aimed to match the dashboard to the Figma wireframe I ideated, but time constraints meant I couldn't fully finish its styling. However, I was able to get the login and register pages very close to my original visual vision, and this is because both pages shared a similar structure. So when I completed the login component, I was able to reuse and adapt that structure for the register component.
 
-Moving forward, I want to continue learning Golang, while continuing to polish my Node.js fundamentals. 
+I also wanted to add more mechanics to improve UX like an empty state for when users don't have any tasks, and other filtering options. 
+
+Moving forward, I want to continue working on this until I can get it to look close to the Figma wireframes. I wanna make it better in general. I also want to continue learning Golang, while continuing to polish my Node.js fundamentals. 
 
 ## Early ideation and wireframing done in Figma
 <img width="800" alt="Frame 13 (1)" src="https://github.com/user-attachments/assets/30150be1-f487-4d40-b1b5-e5e1feab447f" />

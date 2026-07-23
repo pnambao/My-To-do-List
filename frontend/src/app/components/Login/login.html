@@ -1,27 +1,28 @@
 <div class="login-page">
 
-    <div>
-        <img src="/assets/call it done logo.png" alt="call it done logo" width="200">
-    </div>
-    
-  
-<div style="margin: 5px;" class="body">    <p> Welcome back! Login to access all your tasks</p>
-</div>
-    <div class="login-card body">
-      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <label for="username">Username</label><br>
-        <input type="text" id="username" formControlName="username" placeholder="Enter your username"><br><br>
-  
-        <label for="password">Password</label><br>
-        <input type="password" id="password" formControlName="password" placeholder="Enter your password"><br><br>
-  
-        <button type="submit" class="btn-primary">Login</button>
-      </form>
-    </div>
-  
-    <p class="body" style="font-size:12px;">
-      <span style="color: dimgray;">Don't have an account? </span>
-      <span style="color: blue; cursor: pointer" routerLink="/register">Register here</span>
-    </p>
-  
+  <div>
+    <img src="/assets/call it done logo.png" alt="call it done logo" width="200">
   </div>
+
+
+  <div style="margin: 5px;" class="body">
+    <p> Welcome back! Login to access all your tasks</p>
+  </div>
+  <div class="login-card body">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <label for="username">Username</label><br>
+      <input type="text" id="username" formControlName="username" placeholder="Enter your username"><br><br>
+
+      <label for="password">Password</label><br>
+      <input type="password" id="password" formControlName="password" placeholder="Enter your password"><br><br>
+
+      <button type="submit" class="btn-primary">Login</button>
+    </form>
+  </div>
+
+  <p class="body" style="font-size:12px;">
+    <span style="color: dimgray;">Don't have an account? </span>
+    <span style="color: blue; cursor: pointer" routerLink="/register">Register here</span>
+  </p>
+
+</div>

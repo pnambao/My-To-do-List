@@ -22,12 +22,4 @@
     cursor: pointer;
   }
 
-  .login-card label {
-    font-size: 13px;
-    color: #a68a5b;
-    display: inline-block;
-    margin-bottom: 4px;
-  }
-
-
 .task-actions { display: inline-flex; gap: 14px; }
