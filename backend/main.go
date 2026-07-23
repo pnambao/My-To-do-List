@@ -1,6 +1,7 @@
 package main
 
 import (
+	"io"
 	"github.com/rs/cors"
 	"golang.org/x/crypto/bcrypt"
 	_ "github.com/lib/pq"
@@ -110,10 +111,8 @@ func getTasksHandler(w http.ResponseWriter, r *http.Request) {
 
 func createTaskHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("POST /tasks was called")
-	var request CreateTaskRequest
 
-	err := json.NewDecoder(r.Body).Decode(&request)
-
+	request, err := parseCreateTaskRequest(r.Body)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
@@ -265,6 +264,12 @@ func loginHandler(w http.ResponseWriter, r *http.Request) {
 		"id":       userID,
 		"username": request.Username,
 	})
+}
+
+func parseCreateTaskRequest(body io.Reader) (CreateTaskRequest, error) {
+	var request CreateTaskRequest
+	err := json.NewDecoder(body).Decode(&request)
+	return request, err
 }
 
 func main() {
