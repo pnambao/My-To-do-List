@@ -1,22 +1,27 @@
-<!DOCTYPE html>
-<html>
-<body>
+<div class="login-page">
 
-    <div style="
-    display: grid;
-    place-items: center;
-    ">
-    <img src="/assets/call it done logo.png" alt="call it done logo" width="200">
-<div style=" border: .5px solid rgb(234, 231, 231); border-radius: 8px;padding: 15px 20px;">
-<form action="/action_page.php">
-  <label for="fname">Username</label><br>
-  <input type="text" id="fname" name="fname" placeholder="Enter your username"><br><br>
-  <label for="password">Password</label><br>
-  <input type="text" id="lname" name="lname" placeholder="Enter your password"><br><br>
-  <input type="submit" value="Submit">
-</form>
+    <div>
+        <img src="/assets/call it done logo.png" alt="call it done logo" width="200">
+    </div>
+    
+  
+<div style="margin: 5px;" class="body">    <p> Welcome back! Login to access all your tasks</p>
 </div>
-<p style="font-size: x-small;" class="body"><span style="color: dimgray;">Don't have an account? </span> <span style="color: blue;">Register here</span></p>
-</div>
-</body>
-</html>
+    <div class="login-card body">
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <label for="username">Username</label><br>
+        <input type="text" id="username" formControlName="username" placeholder="Enter your username"><br><br>
+  
+        <label for="password">Password</label><br>
+        <input type="password" id="password" formControlName="password" placeholder="Enter your password"><br><br>
+  
+        <button type="submit" class="btn-primary">Login</button>
+      </form>
+    </div>
+  
+    <p class="body">
+      <span style="color: dimgray;">Don't have an account? </span>
+      <span style="color: blue;" routerLink="/register">Register here</span>
+    </p>
+  
+  </div>

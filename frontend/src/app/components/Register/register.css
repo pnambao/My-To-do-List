@@ -1,0 +1,75 @@
+.display {
+    font-family: "Kelly Slab", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+  
+  .brown {
+    color: #a68a5b;
+  }
+  
+  .dark {
+    color: #2a2620;
+  }
+  
+  .gold {
+    color: #d8bd6c;
+  }
+  
+  .login-page {
+    display: grid;
+    place-items: center;
+    padding-top: 80px;
+    min-height: 100vh;
+    box-sizing: border-box;
+  }
+  
+  .body {
+    font-size: 14px;
+    font-family: "Instrument Sans", sans-serif;
+  }
+  
+  .login-card {
+    border: 1px solid rgb(234, 231, 231);
+    border-radius: 12px;
+    padding: 28px 32px;
+    width: 320px;
+    box-sizing: border-box;
+  }
+  
+  .login-card label {
+    font-size: 13px;
+    color: #a68a5b;
+    display: inline-block;
+    margin-bottom: 4px;
+  }
+  
+  .login-card input[type="text"],
+  .login-card input[type="password"] {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid rgb(220, 220, 220);
+    border-radius: 6px;
+    font-size: 14px;
+    box-sizing: border-box;
+    font-family: "Instrument Sans", sans-serif;
+  }
+  
+  .btn-primary,
+  .btn-secondary {
+    margin-top: 12px;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    background: #2a2620;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 500;
+    width: 100%;
+    cursor: pointer;
+  }
+  
+  .btn-primary:hover,
+  .btn-secondary:hover {
+    background: #1a1712;
+  }

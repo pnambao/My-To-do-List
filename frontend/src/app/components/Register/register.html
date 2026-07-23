@@ -1,20 +1,30 @@
-<!DOCTYPE html>
-<html>
-<body>
+<div class="login-page">
 
-<h1>The input element</h1>
+  <div>
+      <img src="/assets/call it done logo.png" alt="call it done logo" width="200">
+  </div>
+  
 
-<form action="/action_page.php">
-  <label for="fname">First name:</label>
-  <input type="text" id="fname" name="fname"><br><br>
-  <label for="lname">Last name:</label>
-  <input type="text" id="lname" name="lname"><br><br>
-  <input type="submit" value="Submit">
-</form>
+<div style="margin: 5px;" class="body">    <p> Keep track of each to-do list item and call it done!</p>
+</div>
+  <div class="login-card body">
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <label for="username">Username</label><br>
+      <input type="text" id="username" formControlName="username" placeholder="Enter your username"><br><br>
 
-<p>Click the "Submit" button and the form-data will be sent to a page on the 
-server called "action_page.php".</p>
+      <label for="email">Email</label><br>
+      <input type="text" id="email" formControlName="email" placeholder="Enter your email address"><br><br>
 
-</body>
-</html>
+      <label for="password">Password</label><br>
+      <input type="password" id="password" formControlName="password" placeholder="Enter your password"><br><br>
 
+      <button type="submit" class="btn-primary">Create Account</button>
+    </form>
+  </div>
+
+  <p class="body">
+    <span style="color: dimgray;">Already have an account? </span>
+    <span style="color: blue;" routerLink="/login">Login here</span>
+  </p>
+
+</div>

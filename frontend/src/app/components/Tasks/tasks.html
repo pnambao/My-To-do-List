@@ -1,5 +1,46 @@
-<h1>My Tasks</h1>
+<div class="page-layout">
 
-<div *ngFor="let task of tasks()">
-    {{ task.title }}
-</div>
+    <main class="task-list">
+        <aside class="sidebar">
+            <h2 class="sidebar-username">{{ username }}</h2>
+            <button class="btn-logout" (click)="logout()">Logout</button>
+          </aside>
+      <h1 class="display">My Tasks</h1>
+  
+      <div class="task-item body" *ngFor="let task of tasks()">
+        <input
+          type="checkbox"
+          [checked]="task.completed"
+          (change)="toggleCompleted(task)"
+        />
+  
+        <span [class.completed]="task.completed">{{ task.title }}</span>
+  
+        <div class="task-actions">
+          <button class="icon-btn" (click)="startEdit(task)" aria-label="Edit task">✎</button>
+          <button class="icon-btn" (click)="deleteTask(task)" aria-label="Delete task">🗑</button>
+        </div>
+      </div>
+    </main>
+  
+    <aside class="create-panel body">
+      <h3 class="create-heading">{{ editingTaskId ? 'Edit Task' : 'Create New Task' }}</h3>
+  
+      <form [formGroup]="createForm" (ngSubmit)="createTask()">
+        <label class="field-label" for="date">Date</label>
+        <input id="date" type="date" formControlName="date" class="field-input" />
+  
+        <label class="field-label" for="title">Task</label>
+        <input id="title" type="text" formControlName="title" class="field-input" placeholder="Enter the task to be completed" />
+  
+        <button type="submit" class="btn-primary">
+          {{ editingTaskId ? 'Save Task' : 'Create Task' }}
+        </button>
+  
+        <button *ngIf="editingTaskId" type="button" class="btn-secondary" (click)="cancelEdit()">
+          Cancel
+        </button>
+      </form>
+    </aside>
+  
+  </div>
