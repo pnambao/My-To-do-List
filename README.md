@@ -55,7 +55,16 @@ The application will be available at:
 ```
 http://localhost:4200
 ``` 
-5. Test Registering a user and creating, editing, or deleting tasks.
+5. Try the following things:
+- Registering a user 
+- logging in with the credentials
+- creating, editing, or deleting tasks.
+
+6. To run the unit test
+```bash
+cd backend
+go test
+```
 
 ## Reflection
 
